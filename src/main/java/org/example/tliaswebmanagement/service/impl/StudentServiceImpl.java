@@ -9,11 +9,9 @@ import org.example.tliaswebmanagement.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -56,24 +54,5 @@ public class StudentServiceImpl implements StudentService {
     public void violation(Integer id, Integer score) {
         studentMapper.updateViolation(id, score);
     }
-    @Override
-    public List<Map> getStudentDegreeData() {
-        return studentMapper.countStudentDegreeData();
-    }
-    @Override
-    public ClazzOption getStudentCountData() {
-        List<Map<String, Object>> countList = studentMapper.getStudentCount();
-        if(!CollectionUtils.isEmpty(countList)){
-            List<Object> clazzList = countList.stream().map(map -> {
-                return map.get("cname");
-            }).toList();
-
-            List<Object> dataList = countList.stream().map(map -> {
-                return map.get("scount");
-            }).toList();
-
-            return new ClazzOption(clazzList, dataList);
-        }
-        return null;
-    }
+    
 }

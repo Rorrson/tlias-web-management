@@ -23,6 +23,5 @@ public interface StudentService {
 
     void violation(Integer id, Integer score);
 
-    List<Map> getStudentDegreeData();
-    ClazzOption getStudentCountData();
+    
 }
