@@ -1,6 +1,8 @@
 package org.example.tliaswebmanagement.controller;
 
 import lombok.extern.slf4j.Slf4j;
+
+import org.example.tliaswebmanagement.annotation.LogOperation;
 import org.example.tliaswebmanagement.pojo.*;
 import org.example.tliaswebmanagement.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ public class StudentController {
         return Result.success(pageResult);
     }
     //添加学员
+    @LogOperation
     @PostMapping
     public Result save(@RequestBody Student student) {
         log.info("添加学员, student={}", student);
@@ -34,18 +37,21 @@ public class StudentController {
         Student student = studentService.getInfo(id);
         return Result.success(student);
     }
+    @LogOperation
     @PutMapping
     public Result update(@RequestBody Student student) {
         log.info("更新学员信息, student={}", student);
         studentService.update(student);
         return Result.success();
     }
+    @LogOperation
     @DeleteMapping("/{ids}")
     public Result delete(@PathVariable List<Integer> ids) {
         log.info("删除学员, ids={}", ids);
         studentService.delete(ids);
         return Result.success();
     }
+    @LogOperation
     @PutMapping("/violation/{id}/{score}")
     public Result violation(@PathVariable Integer id, @PathVariable Integer score) {
         studentService.violation(id, score);
