@@ -3,6 +3,7 @@ package org.example.tliaswebmanagement.service.impl;
 
 
 import org.example.tliaswebmanagement.mapper.DeptMapper;
+import org.example.tliaswebmanagement.mapper.EmpMapper;
 import org.example.tliaswebmanagement.pojo.Dept;
 import org.example.tliaswebmanagement.service.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,19 @@ import java.util.List;
 public class DeptServiceImpl implements DeptService {
     @Autowired
     private DeptMapper deptMapper;
+    @Autowired
+    private EmpMapper empMapper;
 
     public List<Dept> findAll() {
         return deptMapper.findAll();
     }
     public void deleteById(Integer id) {
+        // 检查部门下是否有员工
+        Integer count = empMapper.countByDeptId(id);
+        if (count > 0) {
+            throw new RuntimeException("对不起，当前部门下有员工，不能直接删除！");
+        }
+        // 执行删除操作
         deptMapper.deleteById(id);
     }
     public void save(Dept dept) {

@@ -12,7 +12,9 @@ public class GlobalExceptionHandler {
     public Result ex(Exception e){//方法形参中指定能够处理的异常类型
         e.printStackTrace();//打印堆栈中的异常信息
         //捕获到异常之后，响应一个标准的Result
-        return Result.error("对不起,操作失败,请联系管理员");
+        // 如果是自定义异常，返回自定义的错误信息，否则返回默认错误信息
+        String msg = e.getMessage();
+        return Result.error(msg != null ? msg : "对不起,操作失败,请联系管理员");
     }
 
 }
